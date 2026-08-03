@@ -1,0 +1,79 @@
+- type: entity
+  id: AiCoreGamma
+  name: gamma ai core
+  description: A cheap massproduced AI core. Unlike its smarter cosin this ai core requires a cool ambient temperature to avoid overheating and exploding. Only used on smaller shuttles due to its simpler mind
+  suffix: AI, Ghostrole
+  parent: [BaseStructure, MobSiliconBase]
+  components:
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 0
+    baseSprintSpeed: 0
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.23,-0.45,0.23,0.45"
+        density: 115
+        mask:
+        - MachineMask
+        layer:
+        - MidImpassable
+        - LowImpassable
+  - type: InteractionOutline
+  - type: Sprite
+    sprite: _Mono/Mobs/Core/gamma.rsi
+    layers:
+    - state: base
+    - state: base_unshaded
+      shader: unshaded
+  - type: Appearance
+  - type: InteractionPopup
+    interactSuccessString: petting-success-station-ai
+    interactFailureString: petting-failure-station-ai
+    messagePerceivedByOthers: petting-success-station-ai-others
+    interactSuccessSound:
+      path: /Audio/Ambience/Objects/periodic_beep.ogg
+  - type: Anchorable
+  - type: ApcPowerReceiver
+    powerLoad: 10000 # suspiciously low power-using AI
+  - type: ExtensionCableReceiver
+  - type: TargetSeekingTarget
+  - type: PassiveThermalSignature
+    signature: 500000
+  - type: ThermalSignature
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Common
+    - Traffic
+    - Science
+    - Supply
+    - Engineering
+    - Medical
+    - Security
+    - Service
+  - type: ActiveRadio
+    channels:
+    - Common
+    - Traffic
+    - Science
+    - Supply
+    - Engineering
+    - Medical
+    - Security
+    - Service
+  - type: CollectiveMind
+    channels:
+    - Binary
+    defaultChannel: Binary

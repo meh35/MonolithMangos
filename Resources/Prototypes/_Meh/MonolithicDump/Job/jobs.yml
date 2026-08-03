@@ -1,0 +1,184 @@
+- type: job
+  id: MonolithServant
+  name: job-name-servant
+  description: job-description-pdv-denasvar
+  playTimeTracker: MonolithServant
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 36000 # 10 hours # mono
+    - !type:RoleTimeRequirement
+      role: MonolithAcolyte
+      time: 36000 # 10 hours
+  startingGear: JobServant
+  alwaysUseSpawner: true
+  hideConsoleVisibility: true
+  canBeAntag: true
+  icon: JobIconServant
+  supervisors: job-supervisors-pdv-denasvar
+  weight: 30
+  displayWeight: 30
+  assignedCompany: Monolith
+  setPreference: true
+  access:
+  - CultServant
+  - CultAcolyte
+  - Mercenary
+  accessGroups:
+  - GeneralAccess
+  special:
+  - !type:GiveItemOnHolidaySpecial # Even cultists get a piece of cake.
+    holiday: FrontierBirthday
+    prototype: FrontierBirthdayGift
+  - !type:AddComponentSpecial
+    components:
+    - type: MailDisabled
+    - type: NpcFactionMember
+      factions:
+      - Monolithic
+
+- type: job
+  id: MonolithPriest
+  name: job-name-priest
+  description: job-description-pdv-denasvar
+  playTimeTracker: MonolithPriest
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 36000 # 10 hours # mono
+    - !type:RoleTimeRequirement
+      role: MonolithAcolyte
+      time: 36000 # 10 hours
+  startingGear: JobPriest
+  alwaysUseSpawner: true
+  hideConsoleVisibility: true
+  canBeAntag: true
+  icon: JobIconPriest
+  supervisors: job-supervisors-pdv-denasvar
+  weight: 30
+  displayWeight: 30
+  assignedCompany: Monolith
+  setPreference: true
+  access:
+  - CultPriest
+  - CultServant
+  - CultAcolyte
+  - Mercenary
+  accessGroups:
+  - GeneralAccess
+  special:
+  - !type:GiveItemOnHolidaySpecial # Even cultists get a piece of cake.
+    holiday: FrontierBirthday
+    prototype: FrontierBirthdayGift
+  - !type:AddComponentSpecial
+    components:
+    - type: MailDisabled
+    - type: NpcFactionMember
+      factions:
+      - Monolithic
+
+- type: job
+  id: MonolithAcolyte
+  name: job-name-acolyte
+  description: job-description-pdv-denasvar
+  playTimeTracker: MonolithAcolyte
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 36000 # 10 hours # mono
+  startingGear: JobAcolyte
+  alwaysUseSpawner: true
+  hideConsoleVisibility: true
+  canBeAntag: true
+  icon: "JobIconAcolyte"
+  supervisors: job-supervisors-pdv-denasvar
+  weight: 30
+  displayWeight: 30
+  assignedCompany: Monolith
+  setPreference: true
+  access:
+  - CultAcolyte
+  - Mercenary
+  accessGroups:
+  - GeneralAccess
+  special:
+  - !type:GiveItemOnHolidaySpecial # Even cultists get a piece of cake.
+    holiday: FrontierBirthday
+    prototype: FrontierBirthdayGift
+  - !type:AddComponentSpecial
+    components:
+    - type: MailDisabled
+    - type: NpcFactionMember
+      factions:
+      - Monolithic
+
+- type: startingGear
+  id: JobServant
+  equipment:
+    ears: ClothingHeadsetGrey
+
+- type: startingGear
+  id: JobAcolyte
+  equipment:
+    ears: ClothingHeadsetGrey
+
+- type: startingGear
+  id: JobPriest
+  equipment:
+    ears: ClothingHeadsetGrey
+
+- type: playTimeTracker
+  id: MonolithAcolyte
+
+- type: playTimeTracker
+  id: MonolithServant
+
+- type: playTimeTracker
+  id: MonolithPriest
+
+# Department
+
+- type: department
+  id: Monolith
+  name: department-Monolith
+  description: department-NFMonolith-description # Frontier
+  color: "#727475"
+  weight: 130 # Mono
+  roles:
+  - MonolithServant
+  - MonolithAcolyte
+
+# spawners
+
+- type: entity
+  id: SpawnPointMonolithServant
+  parent: SpawnPointJobBase
+  name: Monolith Servant
+  components:
+  - type: SpawnPoint
+    job_id: MonolithServant
+  - type: Sprite
+    layers:
+      - state: red
+      - state: brigmedic
+
+- type: entity
+  id: SpawnPointMonolithAcolyte
+  parent: SpawnPointJobBase
+  name: Monolith Acolyte
+  components:
+  - type: SpawnPoint
+    job_id: MonolithAcolyte
+  - type: Sprite
+    layers:
+      - state: red
+      - state: brigmedic
+
+- type: entity
+  id: SpawnPointMonolithPriest
+  parent: SpawnPointJobBase
+  name: Monolith Priest
+  components:
+  - type: SpawnPoint
+    job_id: MonolithPriest
+  - type: Sprite
+    layers:
+      - state: red
+      - state: brigmedic
