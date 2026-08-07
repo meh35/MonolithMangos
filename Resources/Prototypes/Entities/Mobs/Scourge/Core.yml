@@ -1,0 +1,136 @@
+# eye
+
+- type: entity
+  parent:
+  - Incorporeal
+  - BaseMob
+  id: ScourgeViewer
+  name: Scourge Viewer
+  description: The Scourge's viewer.
+  components:
+  - type: IntrinsicUI
+    uis:
+      enum.SolarControlConsoleUiKey.Key:
+        toggleAction: ActionScourgeSolar
+  - type: UserInterface
+    interfaces:
+      enum.SolarControlConsoleUiKey.Key:
+        type: SolarControlConsoleBoundUserInterface
+  - type: SolarControlConsole
+  - type: Eye
+    pvsScale: 1.5
+    drawFov: false
+  - type: Visibility
+    layer: 2
+  - type: Sprite
+    sprite: _Mono/Mobs/Aliens/scourge_core.rsi
+    layers:
+    - state: ai_camera
+      shader: unshaded
+      map: ["base"]
+  - type: Muted
+  - type: GhostRole
+    name: ghost-role-information-syndicate-cyborg-assault-name
+    description: ghost-role-information-syndicate-cyborg-description
+    rules: ghost-role-information-silicon-rules
+    raffle:
+       settings: default
+  - type: GhostTakeoverAvailable
+  - type: Hands
+  - type: ComplexInteraction
+  - type: Body
+    prototype: Aghost
+    thermalVisibility: false 
+  - type: BypassInteractionChecks
+  - type: Tag
+    tags:
+    - CanPilot
+    - BypassInteractionRangeChecks
+    - BypassDropChecks
+  - type: Access
+    groups:
+    - AllAccess
+    - Silicon
+  - type: ActionGrant
+    actions:
+    - ActionJumpToBulb
+
+- type: entity
+  id: ActionScourgeSolar
+  name: Leaf Control Interface
+  description: Move your leaves towards the sun.
+  components:
+  - type: InstantAction
+    icon: { sprite: _Mono/Mobs/Aliens/scourge_actions.rsi, state: flower}
+    iconOn: { sprite: _Mono/Mobs/Aliens/scourge_actions.rsi, state: flower}
+    keywords: [ "Scourge" ]
+    priority: 1
+    event: !type:ToggleIntrinsicUIEvent { key: enum.SolarControlConsoleUiKey.Key }
+
+- type: entity
+  id: ActionJumpToBulb
+  name: Jump to Bulb
+  description: Sends your eye back to the bulb.
+  components:
+  - type: InstantAction
+    priority: 0
+    itemIconStyle: BigAction
+    icon:
+      sprite: _Mono/Mobs/Aliens/scourge_actions.rsi
+      state: warp_core
+    event: !type:JumpToBulb
+
+# Bulb
+
+- type: entity
+  id: ScourgeBulb
+  parent: BaseStructure
+  suffix: green
+  name: crystal
+  description: A crystaline solid.
+  components:
+  - type: Sprite
+    sprite: _Mono/Mobs/Aliens/scourge_core.rsi
+    layers:
+    - state: core
+    - type: Physics
+      bodyType: Static
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeCircle
+            radius: 0.45
+          density: 60
+          mask:
+            - MachineMask
+          layer:
+            - MidImpassable
+            - LowImpassable
+            - BulletImpassable
+            - Opaque
+    - type: PointLight
+      radius: 3
+      energy: 3
+      color: "#e2b570"
+    - type: Damageable
+      damageContainer: StructuralInorganic
+      damageModifierSet: Glass
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 250
+          behaviors:
+            - !type:PlaySoundBehavior
+              sound:
+                collection: GlassBreak
+            - !type:SpawnEntitiesBehavior
+              spawn:
+                ShardCrystalGreen:
+                  min: 1
+                  max: 1
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+  - type: SpawnerLinked
+    prototype: ScourgeViewer
