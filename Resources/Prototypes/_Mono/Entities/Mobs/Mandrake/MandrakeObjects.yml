@@ -1,0 +1,41 @@
+- type: entity
+  id: LeavesSolar
+  parent: SolarPanelBasePhysSprite
+  name: Leaves
+  description: A small set of leaves that make power using photosynthisis.
+  components:
+  - type: PowerSupplier
+    voltage: Apc
+    heatSignatureRatio: 0 
+    supplyRampTolerance: 500
+    supplyRampRate: 500
+  - type: NFSolarPanel # Frontier: SolarPanel<NFSolarPanel (grid-based tracking)
+  - type: Damageable
+    damageContainer: Structuralorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+      - !type:DoActsBehavior
+        acts: ["Breakage"]
+  - type: NodeContainer
+    examinable: true
+    nodes:
+      output:
+        !type:CableDeviceNode
+        nodeGroupID: Apc
+
+- type: entity
+  id: CableApcExtensionVine
+  parent: CableApcExtension
+  name: Vines
+  components:
+  - type: StationAiVision
+    range: 2
+  - type: ApcPowerReceiver

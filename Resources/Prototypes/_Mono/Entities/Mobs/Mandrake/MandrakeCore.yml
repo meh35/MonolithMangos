@@ -1,0 +1,107 @@
+- type: entity
+  parent:
+  - Incorporeal
+  - BaseMob
+  id: MandrakeHolo
+  name: Mandrake Eye
+  description: The Mandrake's viewer.
+  components:
+  - type: Tag
+    tags: 
+    - CanPilot
+  - type: Eye
+    drawFov: False
+    pvsScale: 1.5
+  - type: Visibility
+    layer: 2
+  - type: Sprite
+    sprite: Mobs/Silicon/station_ai.rsi
+    layers:
+    - state: ai_camera
+      shader: unshaded
+      map: ["base"]
+  - type: IgnoreUIRange
+  - type: StationAiHeld
+  - type: StationAiOverlay
+  - type: ShowElectrocutionHUD
+  - type: ActionGrant
+    actions:
+    - ActionSpawnSolarPanel
+    - ActionSpawnFlooring
+  - type: UserInterface
+    interfaces:
+      enum.SolarControlConsoleUiKey.Key:
+        type: SolarControlConsoleBoundUserInterface
+      enum.RadarConsoleUiKey.Key:
+        type: RadarConsoleBoundUserInterface
+  - type: IntrinsicUI
+    uis:
+      enum.SolarControlConsoleUiKey.Key:
+        toggleAction: ActionMandrakeShowSolar
+      enum.RadarConsoleUiKey.Key:
+        toggleAction: ActionAGhostShowRadar
+  - type: SolarControlConsole 
+  - type: DeviceNetwork
+    deviceNetId: Wireless
+    receiveFrequencyId: CrewMonitor
+    transmitFrequencyId: ShuttleTimer
+  - type: RadarConsole
+    followEntity: false
+  - type: HolographicAvatar
+    layerData:
+    - sprite: Mobs/Silicon/station_ai.rsi
+      state: default
+  - type: AdvancedPilot
+  - type: ComplexInteraction
+  - type: NightVision # Gen 3 wide-quadtube
+    relayOverlay: false
+    goggleEffect: false
+    action: ActionToggleNightVision
+    phosphorColor: "#ffffff"
+    lightingColor: "#ffffff"
+
+- type: entity
+  id: ActionMandrakeShowSolar
+  name: Leaf Control Interface
+  description: Angle your leaves towards the sun.
+  components:
+  - type: InstantAction
+    icon: { sprite: Structures/Machines/parts.rsi, state: box_0 }
+    iconOn: { sprite: Structures/Machines/parts.rsi, state: box_2 }
+    keywords: [ "AI", "console", "interface" ]
+    priority: -3
+    event: !type:ToggleIntrinsicUIEvent { key: enum.SolarControlConsoleUiKey.Key }
+
+- type: entity
+  id: ActionSpawnSolarPanel
+  name: Plant Leaves
+  description: Grows a small patch of leaves
+  components:
+  - type: WorldTargetAction
+    checkCanAccess: false
+    range: 3
+    itemIconStyle: BigAction
+    icon: { sprite: Structures/Walls/meat.rsi, state: full }
+    event: !type:PlaceTileEntityEvent
+      entity: LeavesSolar
+      tileId: FloorGrassDark
+      blockedCollisionMask:
+      - FullTileMask
+      blockedCollisionLayer:
+      - WallLayer
+      audio: /Audio/Effects/Fluids/splat.ogg
+
+- type: entity
+  id: ActionSpawnFlooring
+  name: Plant Tile
+  description: Pries up the tile under itself with plant growth
+  components:
+  - type: WorldTargetAction
+    checkCanAccess: false
+    range: 3
+    itemIconStyle: BigAction
+    icon: { sprite: Structures/Walls/meat.rsi, state: full }
+    event: !type:PlaceTileEntityEvent
+      entity: CableApcExtensionVine
+      tileId: FloorGrassDark
+      audio: /Audio/Effects/Fluids/splat.ogg
