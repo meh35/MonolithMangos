@@ -7,7 +7,7 @@
   description: A support mothership designed to reinforce an engagements back-line with mech and drone ensemble or closer resupplies.
   price: 280000
   limit: 2
-  hyperwarLimit: 0 # For lag and balance reasons, but mostly lag.
+  hyperwarTimelock: 1800
   purchasable: false
   category: Medium
   group: BlackMarket

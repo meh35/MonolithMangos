@@ -30,3 +30,6 @@ mono-Xeno-description = Native PDV imperials threaten TSF colonial expansion int
 
 mono-secret-title = Secret (?)
 mono-secret-description = The main threat of the round is unknown. You'll have to figure that out later.
+
+mono-Xeno-title = Reclimation (TSF|PDV)
+mono-Xeno-description = Native PDV imperials threaten TSF colonial expansion into the sector. While the Xenoborgs have begun their assault on the sector.
